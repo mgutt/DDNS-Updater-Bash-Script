@@ -79,7 +79,7 @@ for i in ${!domains[@]}; do
   ipv4lastcheck="/tmp/ipv4.lastcheck.${domain}.ddns"
   ipv6lastcheck="/tmp/ipv6.lastcheck.${domain}.ddns"
 
-  # obtain public IPv4 if not fixed
+  # obtain public IPv4
   if [[ -n "$ipv4" ]] && [[ "$ipv4" =~ ^[0-9.]+$ ]]; then
     # Check if we already obtained the IP from the external service
     if [[ $ipv4lastapi != $ipv4 ]]; then
