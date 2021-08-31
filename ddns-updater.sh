@@ -125,6 +125,7 @@ for i in ${!domains[@]}; do
     "allinkl")
         url="https://${user}:${password}@dyndns.kasserver.com/?myip=${ipv4}&myip6=${ipv6}"
         ;;
+    # You need to add "google" twice if you like to update IPv4 and IPv6!
     "google")
         url="https://${user}:${password}@domains.google.com/nic/update?hostname=${domain}&myip={ipv4}{ipv6}"
         ;;
