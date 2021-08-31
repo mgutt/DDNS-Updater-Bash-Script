@@ -70,6 +70,8 @@ for i in ${!domains[@]}; do
   ipv6="${ipv6s[i]}"
   ipv4lastapi="none"
   ipv6lastapi="none"
+  ipv4lastfilename="none"
+  ipv6lastfilename="none"
 
   # files to store IP addresses
   ipv4filename="/tmp/ipv4.${domain}.ddns"
@@ -103,7 +105,7 @@ for i in ${!domains[@]}; do
       lastcheck=$(stat -c %Y "$ipv6lastcheck")
       # obtain public IPv6 only every 5 minutes to avoid DDoS'ing the external service
       if [[ $lastcheck -lt $(date -d "-5 minutes" +"%s") ]]; then
-        ipv6lastapi=$ipv4
+        ipv6lastapi=$ipv6
         ipv6lastfilename=$ipv6filename
         ipv6=$(curl -6 ${ipv6})
         touch "$ipv6lastcheck"
