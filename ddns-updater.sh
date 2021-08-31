@@ -1,6 +1,6 @@
 #!/bin/bash
 # #####################################
-# Script:      DDNS Updater v0.9
+# Script:      DDNS Updater v1.0
 # Description: Opens a DDNS URL to update the IPv4 and/or IPv6.
 # Author:      Marc Gutt
 # 
@@ -70,8 +70,6 @@ for i in ${!domains[@]}; do
   ipv6="${ipv6s[i]}"
   ipv4lastapi="none"
   ipv6lastapi="none"
-  ipv4lastfilename="none"
-  ipv6lastfilename="none"
 
   # files to store IP addresses
   ipv4filename="/tmp/ipv4.${domain}.ddns"
@@ -79,8 +77,8 @@ for i in ${!domains[@]}; do
   ipv4lastcheck="/tmp/ipv4.lastcheck.${domain}.ddns"
   ipv6lastcheck="/tmp/ipv6.lastcheck.${domain}.ddns"
 
-  # obtain public IPv4
-  if [[ -n "$ipv4" ]] && [[ "$ipv4" =~ ^[0-9.]+$ ]]; then
+  # obtain public IPv4 if not fixed
+  if [[ -n "$ipv4" ]] && [[ ! "$ipv4" =~ ^[0-9.]+$ ]]; then
     # Check if we already obtained the IP from the external service
     if [[ $ipv4lastapi != $ipv4 ]]; then
       lastcheck=$(stat -c %Y "$ipv4lastcheck")
@@ -93,26 +91,26 @@ for i in ${!domains[@]}; do
       else
         ipv4=$(cat "$ipv4filename")
       fi
-    elif
+    else
       ipv4=$(cat "$ipv4lastfilename")
     fi
   fi
 
   # obtain public IPv6
-  if [[ -n "$ipv6" ]] && [[ "$ipv6" =~ ^[0-9a-z:/]+$ ]]; then
+  if [[ -n "$ipv6" ]] && [[ ! "$ipv6" =~ ^[0-9a-z:/]+$ ]]; then
     # Check if we already obtained the IP from the external service
     if [[ $ipv6lastapi != $ipv6 ]]; then
       lastcheck=$(stat -c %Y "$ipv6lastcheck")
       # obtain public IPv6 only every 5 minutes to avoid DDoS'ing the external service
       if [[ $lastcheck -lt $(date -d "-5 minutes" +"%s") ]]; then
-        ipv6lastapi=$ipv6
+        ipv6lastapi=$ipv4
         ipv6lastfilename=$ipv6filename
         ipv6=$(curl -6 ${ipv6})
         touch "$ipv6lastcheck"
       else
         ipv6=$(cat "$ipv6filename")
       fi
-    elif
+    else
       ipv6=$(cat "$ipv6lastfilename")
     fi
   fi
