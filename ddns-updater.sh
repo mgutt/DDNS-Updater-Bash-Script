@@ -1,6 +1,6 @@
 #!/bin/bash
 # #####################################
-# Script:      DDNS Updater v1.0
+# Script:      DDNS Updater v1.1
 # Description: Opens a DDNS URL to update the IPv4 and/or IPv6.
 # Author:      Marc Gutt
 # 
@@ -125,8 +125,11 @@ for i in ${!domains[@]}; do
     "allinkl")
         url="https://${user}:${password}@dyndns.kasserver.com/?myip=${ipv4}&myip6=${ipv6}"
         ;;
+    "google")
+        url="https://${user}:${password}@domains.google.com/nic/update?hostname=${domain}&myip={ipv4}{ipv6}"
+        ;;
     "duckdns")
-        url="https://www.duckdns.org/update?domains=${domain}&token=${password}&ip=${ipv4}&ipv6=${ipv6}"
+        url="https://www.duckdns.org/update?domains=${subdomain}&token=${password}&ip=${ipv4}&ipv6=${ipv6}"
         ;;
     esac
     curl $url
