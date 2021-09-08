@@ -125,12 +125,15 @@ for i in ${!domains[@]}; do
     "allinkl")
         url="https://${user}:${password}@dyndns.kasserver.com/?myip=${ipv4}&myip6=${ipv6}"
         ;;
+    "duckdns")
+        url="https://www.duckdns.org/update?domains=${subdomain}&token=${password}&ip=${ipv4}&ipv6=${ipv6}"
+        ;;
+    "dynu")
+        url="http://api.dynu.com/nic/update?hostname=${domain}&myip=${ipv4}&myipv6=${ipv6}&password=${password}"
+        ;;
     # You need to add "google" twice if you like to update IPv4 and IPv6!
     "google")
         url="https://${user}:${password}@domains.google.com/nic/update?hostname=${domain}&myip={ipv4}{ipv6}"
-        ;;
-    "duckdns")
-        url="https://www.duckdns.org/update?domains=${subdomain}&token=${password}&ip=${ipv4}&ipv6=${ipv6}"
         ;;
     esac
     curl $url
