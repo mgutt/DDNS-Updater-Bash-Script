@@ -33,7 +33,7 @@ providers=(
 # obtain IPv4 of routers DDNS address
 ipv4_public=$(dig xxx.myfritz.net A +short)
 
-# obtain ipv6 from br0 device
+# obtain ipv6 of br0 device
 ipv6_public=$(ip -6 addr show dev br0 scope global | grep -oP "(?<=inet6 )[^/]+" | head -n 1)
 
 # ######### Script ####################
